@@ -7,6 +7,7 @@ module "storage" {
 
 module "event_bus" {
   source          = "./modules/event_bus"
+  name            = var.project_name
   resource_prefix = local.prefix
   tags            = local.tags
 }
@@ -74,19 +75,19 @@ module "ssm_params" {
   source = "./modules/ssm_params"
 
   params = {
-    format("/dataops/fm/%s_domain_name", terraform.workspace) = {
+    format("/%s/%s/domain_name", var.project_name, terraform.workspace) = {
       type  = "String",
       value = var.base_domain_name
     },
-    format("/dataops/fm/%s_domain_cert", terraform.workspace) = {
+    format("/%s/%s/domain_cert", var.project_name, terraform.workspace) = {
       type  = "String",
       value = module.dns.domain_cert_arn
     },
-    "/dataops/fm/vpc_id" = {
+    format("/%s/%s/vpc_id", var.project_name, terraform.workspace) = {
       type  = "String",
       value = module.vpc.vpc_id
     },
-    "/dataops/fm/event_bus_sns_topic" = {
+    format("/%s/%s/event_bus_sns_topic", var.project_name, terraform.workspace) = {
       type  = "String",
       value = module.event_bus.name
     }

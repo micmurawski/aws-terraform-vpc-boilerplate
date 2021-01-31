@@ -1,7 +1,7 @@
 locals {
   prefix          = terraform.workspace
-  resource_prefix = format("%s-%s-core", var.stage, var.environment)
-  enable_xray     = "1"
+  resource_prefix = format("%s-%s-%s-core", var.project_name, var.environment, var.stage)
+
   env_config = {
     default = {
       num_public_subnets     = 1
@@ -54,6 +54,7 @@ locals {
   ]
 
   tags = {
+    "Project"     = var.project_name
     "Environment" = var.environment
     "Stage"       = var.stage
   }

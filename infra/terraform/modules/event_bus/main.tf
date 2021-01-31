@@ -1,4 +1,4 @@
-resource "aws_sns_topic" "dataops-fm-event-bus" {
-  name = "dataops-fm-event-bus-1"
+resource "aws_sns_topic" "event-bus" {
+  name = format("%s-%s", var.name, var.resource_prefix)
   tags = var.tags
 }
