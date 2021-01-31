@@ -9,9 +9,9 @@ TERRAFORM_BACKEND_KEY= $(PROJECT_NAME)/terraform.tfstate
 include build/makefile/root.mk
 include build/makefile/terraform.mk
 
-export TF_VAR_environment=$(FM_ENVIRONMENT)
-export TF_VAR_stage=$(FM_STAGE)
-export TF_VAR_base_domain_name=$(FM_BASE_DOMAIN_NAME)
+export TF_VAR_environment=$(ENVIRONMENT)
+export TF_VAR_stage=$(STAGE)
+export TF_VAR_base_domain_name=$(BASE_DOMAIN_NAME)
 
 test: terraform_validate
 
