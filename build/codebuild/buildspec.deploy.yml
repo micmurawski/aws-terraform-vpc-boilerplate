@@ -1,0 +1,20 @@
+version: 0.2
+
+env:
+  variables:
+    MAKEFLAGS: "--jobs=4 --output-sync=target"
+    TF_IN_AUTOMATION: "true"
+    TF_CLI_ARGS: "-no-color"
+    TF_CLI_ARGS_apply: "-auto-approve"
+    ALLOW_DEPLOY: "true"
+    # TF_LOG: "trace"
+phases:
+  build:
+    commands:
+      - export TF_VAR_environment=$TERRAFORM_WORKSPACE_NAME
+      - make terraform_init
+      - for retry in `seq 1 ${NUM_RETRIES:-2}`; do make deploy; [ $? -eq 0 ] && break || [ $retry -eq ${NUM_RETRIES:-2} ] && return 1 || echo -e "\n\n\n\n\nRetrying step\n\n\n\n\n"; done
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: no
